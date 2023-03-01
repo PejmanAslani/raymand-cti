@@ -1,0 +1,67 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "../src/css/font/fonts.css";
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body,
+html {
+  
+  direction: ltr;
+}
+
+
+
+.delete {
+  color: red;
+  font-size: 14pt;
+  cursor: pointer;
+}
+
+.delete:hover {
+  color: red;
+  font-size: 14pt !important;
+  cursor: pointer;
+  font-weight: bolder !important;
+}
+
+.edit {
+  color: orange;
+  font-size: 14pt !important;
+  cursor: pointer;
+}
+
+.edit:hover {
+  color: orange;
+  font-size: 14pt !important;
+  cursor: pointer;
+  font-weight: bolder !important;
+}
+
+.view {
+  color: green;
+  font-size: 14pt !important;
+  cursor: pointer;
+}
+
+.view:hover {
+  color: green;
+  font-size: 14pt !important;
+  cursor: pointer;
+  font-weight: bolder !important;
+}

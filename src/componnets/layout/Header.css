@@ -1,0 +1,65 @@
+.header {
+  margin-bottom: 20px;
+}
+
+.apply {
+  color: rgb(255, 255, 255);
+
+}
+
+.apply:hover {
+
+  color: rgb(185, 127, 240);
+
+}
+
+#side-nav {
+  background: #3B3B98;
+  min-width: 230px;
+  max-width: 230px;
+}
+
+.content {
+  min-height: 100vh;
+  width: 100%;
+}
+
+hr .h-color {
+  background: white;
+}
+
+.sidebar li.active {
+  background: aliceblue;
+  border-radius: 8px;
+
+}
+
+.sidebar li.active a .sidebar li.active a:hover {
+  color: black;
+}
+
+.sidebar li a {
+  color: azure;
+}
+
+@media(max-width: 767px) {
+  #side-nav {
+
+    position: fixed;
+    min-height: 100vh;
+    z-index: 1;
+
+  }
+
+  #side-nav.active {
+    margin-left: 0;
+  }
+}
+
+.nav-link a {
+  color: #ffff;
+}
+.navbar-nav {
+  padding-left: 50px;
+  padding-right: 60px;
+}
