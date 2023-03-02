@@ -10,11 +10,18 @@ import TextInputCustom from "../../reuseables/TextInputCustom";
 
 
 const AddUser = (props: any) => {
+    class saveData {
+        id: number;
+        sipUser: object;
+        outboundRoute:object;
+        enable:boolean;
+    }
+
     //Define Hooks
     const [disable, setDisable] = useState({
         group: true,
         range: false
-    })
+    });
     const [rowData, setRowData] = useState<any>([]);
     const [options, setOptions] = useState({
         Groups: [],
@@ -22,13 +29,13 @@ const AddUser = (props: any) => {
     const [formdata, setFormData] = useState({
         id: null,
         sipUser: {
-            id: 0
+            id:0
         },
         outboundRoute: {
             id: 0,
         },
         enable: true,
-    })
+    });
     //Define FormData State
     const [state, setState] = useState({
         type: "range",
@@ -81,42 +88,57 @@ const AddUser = (props: any) => {
             });
     };
     //delete Request
-    const Delete = (data?: any) => {
+    const Delete = (data: any) => {
         let RouteID = props.id;
         setFormData({ ...formdata, outboundRoute: { id: RouteID } });
         let url = "/outbound-route-users/" + RouteID;
-        PlineTools.postRequest(url, data)
-            .then((result) => {
-                if (result.data.hasError) {
-                    PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
-                } else {
-                    props.reload();
-                }
-            })
-            .catch((error) => {
-                PlineTools.errorDialogMessage(
-                    "An error occurred while executing your request. Contact the system administrator"
-                );
-            });
+        console.log(formdata)
+        // PlineTools.postRequest(url, data)
+        //     .then((result) => {
+        //         if (result.data.hasError) {
+        //             PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+        //         } else {
+        //             props.reload();
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         PlineTools.errorDialogMessage(
+        //             "An error occurred while executing your request. Contact the system administrator"
+        //         );
+        //     });
     };
     const Save = () => {
+        let data :any[]=[];
         let RouteID = props.id;
-        setFormData({ ...formdata, outboundRoute: { id: RouteID } });
-        var data: any[] = [formdata];
+        let result = rowData.map(function (item: any) {
+            return { id: item["id"] }
+        });
         let url = "/outbound-route-users/" + RouteID;
-        PlineTools.postRequest(url, data)
-            .then((result) => {
-                if (result.data.hasError) {
-                    PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
-                } else {
-                    props.reload();
-                }
-            })
-            .catch((error) => {
-                PlineTools.errorDialogMessage(
-                    "An error occurred while executing your request. Contact the system administrator"
-                );
-            });
+            for( let i=0;i<result.length;i++)
+            {
+                   // var obj=new saveData();
+                   // setRowData((prevState =>{
+                   //     return{
+                   //         ...prevState,
+                   //         counter : prevState.counter + 1
+                   //     }
+                   // }))
+                   // data.push({...formdata})
+            }
+            console.log(data)
+        // PlineTools.postRequest(url, data)
+        //     .then((result) => {
+        //         if (result.data.hasError) {
+        //             PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+        //         } else {
+        //             props.reload();
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         PlineTools.errorDialogMessage(
+        //             "An error occurred while executing your request. Contact the system administrator"
+        //         );
+        //     });
     }
     useEffect(() => {
         getData();
