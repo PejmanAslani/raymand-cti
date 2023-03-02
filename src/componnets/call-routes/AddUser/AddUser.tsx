@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {Button, Form, Row} from "react-bootstrap";
-import {Col} from "react-bootstrap";
+import { Button, Form, Row } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import ToolTipCustom from "../../reuseables/tooltip/ToolTipCustom";
-import PlineTools, {TypeAlert} from "../../services/PlineTools";
+import PlineTools, { TypeAlert } from "../../services/PlineTools";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
-import {Trash3Fill} from "react-bootstrap-icons";
+import { Trash3Fill } from "react-bootstrap-icons";
 import TextInputCustom from "../../reuseables/TextInputCustom";
 
 
@@ -19,26 +19,28 @@ const AddUser = (props: any) => {
     const [options, setOptions] = useState({
         Groups: [],
     });
-    const [formdata,setFormData]=useState({
-        sipUser:{
-            id:0
+    const [formdata, setFormData] = useState({
+        id: null,
+        sipUser: {
+            id: 0
         },
         outboundRoute: {
             id: 0,
         },
-        enable: false,
+        enable: true,
     })
     //Define FormData State
     const [state, setState] = useState({
         type: "range",
         value: "",
     });
+    //group select 
     const GetUserGroups = () => {
         PlineTools.getRequest("/sip-group-users").then((result) => {
             if (result.data.hasError) {
                 PlineTools.errorDialogMessage("Filed To Get Sip UserGroups");
             } else {
-                setOptions({...options, Groups: result.data.content});
+                setOptions({ ...options, Groups: result.data.content });
             }
         });
     };
@@ -49,13 +51,14 @@ const AddUser = (props: any) => {
         PlineTools.postRequest(url, state)
             .then((result: any) => {
                 for (let i = 0; i <= result.data.length; i++) {
-                    setRowData({...rowData, users: result.data})
+                    setRowData(result.data)
                 }
             })
             .catch((error: any) => {
                 PlineTools.errorDialogMessage("An error occurred while executing your request. Contact the system administrator");
             });
     };
+    //load users from backend
     const getData = () => {
         const id = props.id;
         PlineTools.getRequest("/outbound-route-users/" + id)
@@ -63,20 +66,24 @@ const AddUser = (props: any) => {
                 let data: any[] = [];
                 const length = result.data.length;
                 let res = result.data;
-                for (let i = 0; i <= length; i++) {
-                      setRowData(res[i].sipUser.uid)
+                for (let i = 0; i < length; i++) {
+                    data.push(res[i].sipUser)
                 }
+                var final = data.map(function (item: any) {
+                    return { id: item["id"], uid: item["uid"] }
+                });
+                setRowData(final)
             })
             .catch(() => {
-                console.log(rowData)
                 PlineTools.errorDialogMessage(
-                    "An error occurred while executing your request. Contact the system administrator"
+                    "Error on Get Users"
                 );
             });
     };
-    const saveChanges = (data: any) => {
+    //delete Request
+    const Delete = (data?: any) => {
         let RouteID = props.id;
-        setState({...rowData, outboundRoute: {id: RouteID}});
+        setFormData({ ...formdata, outboundRoute: { id: RouteID } });
         let url = "/outbound-route-users/" + RouteID;
         PlineTools.postRequest(url, data)
             .then((result) => {
@@ -92,41 +99,42 @@ const AddUser = (props: any) => {
                 );
             });
     };
+    const Save = () => {
+        let RouteID = props.id;
+        setFormData({ ...formdata, outboundRoute: { id: RouteID } });
+        var data: any[] = [formdata];
+        let url = "/outbound-route-users/" + RouteID;
+        PlineTools.postRequest(url, data)
+            .then((result) => {
+                if (result.data.hasError) {
+                    PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+                } else {
+                    props.reload();
+                }
+            })
+            .catch((error) => {
+                PlineTools.errorDialogMessage(
+                    "An error occurred while executing your request. Contact the system administrator"
+                );
+            });
+    }
     useEffect(() => {
         getData();
         GetUserGroups();
-        setFormData({...formdata, outboundRoute: {id: props.id}});
+        setFormData({ ...formdata, outboundRoute: { id: props.id } });
     }, []);
     const columns = [
         {
-            field: "users",
+            field: "uid",
             headerName: "Sip User",
         },
-        {field: "delete", headerName: "Delete", cellRenderer: DeleteRow, filter: false, sortable: false},
+        { field: "delete", headerName: "Delete", cellRenderer: DeleteRow, filter: false, sortable: false },
     ];
-
-    function CheckBox(params: any) {
-        return (
-            <input
-                style={{cursor: "pointer"}}
-                type="checkbox"
-                checked={params.value}
-                onChange={(e: any) => {
-                    let newRowData: any[] = [];
-                    const value = e.target.checked;
-                    let colId = params.column.colId;
-                    params.node.setDataValue(colId, value);
-                    params.api.forEachNode((node: any) => newRowData.push(node.data));
-                    saveChanges(newRowData);
-                }}
-            />
-        );
-    }
 
     function DeleteRow(e: any) {
         return (
             <p
-                style={{cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                     let newRowData: any[] = [];
                     e.api.applyTransaction({
@@ -135,31 +143,31 @@ const AddUser = (props: any) => {
                     e.api.forEachNodeAfterFilter((node: any) =>
                         newRowData.push(node.data)
                     );
-                    // saveChanges(newRowData);
+                    Delete(newRowData);
                 }}>
-                <Trash3Fill color="red"/>
+                <Trash3Fill color="red" />
             </p>
         );
     }
     return (
         <div className="container">
             <h3> Add Users</h3>
-            <hr/>
+            <hr />
             <Form onSubmit={AddUser}>
                 <Row>
                     <Col md={6}>
                         <Form.Group className="mb-3" controlId="sipTrunks">
                             <Form.Label>Select Types</Form.Label>
-                            <ToolTipCustom/>
+                            <ToolTipCustom />
                             <select
                                 onChange={(e: any) => {
                                     if (e.target.value === "range") {
-                                        setDisable({...disable, range: false, group: true})
+                                        setDisable({ ...disable, range: false, group: true })
                                     }
-                                    setState({...state, type: "range"})
+                                    setState({ ...state, type: "range" })
                                     if (e.target.value === "group") {
-                                        setDisable({...disable, group: false, range: true})
-                                        setState({...state, type: "group"})
+                                        setDisable({ ...disable, group: false, range: true })
+                                        setState({ ...state, type: "group" })
                                     }
                                 }}
                                 className={"form-select"}>
@@ -171,12 +179,12 @@ const AddUser = (props: any) => {
                     <Col md={6} hidden={disable.group}>
                         <Form.Group className="mb-3" controlId="sipTrunks">
                             <Form.Label>SIP Users</Form.Label>
-                            <ToolTipCustom/>
+                            <ToolTipCustom />
                             <select
                                 className={"form-select"}
                                 value={state.value}
                                 onChange={(e) => {
-                                    setState({...state, value: e.target.value});
+                                    setState({ ...state, value: e.target.value });
                                 }}
                             >
                                 <option value={0}>Select Users ...</option>
@@ -207,6 +215,7 @@ const AddUser = (props: any) => {
                         </Button>
                         {" "}
                         <Button variant="primary" onClick={() => {
+                            Save()
                         }}>
                             Save
                         </Button>
@@ -219,13 +228,13 @@ const AddUser = (props: any) => {
                     </Col>
                 </Row>
             </Form>
-            <hr/>
+            <hr />
             <h3>Users</h3>
             <DataGrid
                 dnd={false}
                 paging={true}
                 columnDefs={columns}
-                rowData={rowData.users}
+                rowData={rowData}
             />
 
         </div>
