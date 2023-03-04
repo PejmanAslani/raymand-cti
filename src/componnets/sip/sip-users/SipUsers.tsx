@@ -125,7 +125,7 @@ const SipUsers = () => {
     },
     {
       field: "ipAddress", headerName: "User Agent Address", width: "auto", cellRenderer: (params: any) => {
-        if (params.node.data.port === "0")
+        if (params.node.data.port == 0)
           return params.node.data.ipAddress;
         return params.node.data.ipAddress + ':' + params.node.data.port;
       }
