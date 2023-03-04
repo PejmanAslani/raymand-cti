@@ -10,13 +10,6 @@ import TextInputCustom from "../../reuseables/TextInputCustom";
 
 
 const AddUser = (props: any) => {
-    class saveData {
-        id: number;
-        sipUser: object;
-        outboundRoute:object;
-        enable:boolean;
-    }
-
     //Define Hooks
     const [disable, setDisable] = useState({
         group: true,
@@ -29,7 +22,7 @@ const AddUser = (props: any) => {
     const [formdata, setFormData] = useState({
         id: null,
         sipUser: {
-            id:0
+            id: 0
         },
         outboundRoute: {
             id: 0,
@@ -88,57 +81,54 @@ const AddUser = (props: any) => {
             });
     };
     //delete Request
-    const Delete = (data: any) => {
+    const Delete = (result: any) => {
         let RouteID = props.id;
-        setFormData({ ...formdata, outboundRoute: { id: RouteID } });
+        let data: any[] = [];
         let url = "/outbound-route-users/" + RouteID;
-        console.log(formdata)
-        // PlineTools.postRequest(url, data)
-        //     .then((result) => {
-        //         if (result.data.hasError) {
-        //             PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
-        //         } else {
-        //             props.reload();
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         PlineTools.errorDialogMessage(
-        //             "An error occurred while executing your request. Contact the system administrator"
-        //         );
-        //     });
+        for (var i = 0; i < result.length; i++) {
+            var obj = {};
+            obj = { id: null, outboundRoute: { id: RouteID }, sipUser: { id: result[i].id }, enable: true }
+            data.push(obj)
+        }
+        PlineTools.postRequest(url, data)
+            .then((result) => {
+                if (result.data.hasError) {
+                    PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+                } else {
+                    props.reload();
+                }
+            })
+            .catch((error) => {
+                PlineTools.errorDialogMessage(
+                    "An error occurred while executing your request. Contact the system administrator"
+                );
+            });
     };
     const Save = () => {
-        let data :any[]=[];
+        let data: any[] = [];
         let RouteID = props.id;
+        let url = "/outbound-route-users/" + RouteID;
         let result = rowData.map(function (item: any) {
             return { id: item["id"] }
         });
-        let url = "/outbound-route-users/" + RouteID;
-            for( let i=0;i<result.length;i++)
-            {
-                   // var obj=new saveData();
-                   // setRowData((prevState =>{
-                   //     return{
-                   //         ...prevState,
-                   //         counter : prevState.counter + 1
-                   //     }
-                   // }))
-                   // data.push({...formdata})
-            }
-            console.log(data)
-        // PlineTools.postRequest(url, data)
-        //     .then((result) => {
-        //         if (result.data.hasError) {
-        //             PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
-        //         } else {
-        //             props.reload();
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         PlineTools.errorDialogMessage(
-        //             "An error occurred while executing your request. Contact the system administrator"
-        //         );
-        //     });
+        for (var i = 0; i < result.length; i++) {
+            var obj = {};
+            obj = { id: null, outboundRoute: { id: RouteID }, sipUser: { id: result[i].id }, enable: true }
+            data.push(obj)
+        }
+        PlineTools.postRequest(url, data)
+            .then((result) => {
+                if (result.data.hasError) {
+                    PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+                } else {
+                    props.reload();
+                }
+            })
+            .catch((error) => {
+                PlineTools.errorDialogMessage(
+                    "An error occurred while executing your request. Contact the system administrator"
+                );
+            });
     }
     useEffect(() => {
         getData();
@@ -223,6 +213,7 @@ const AddUser = (props: any) => {
                         name='value'
                         placeholder="Example 100-120,300-310,400-450"
                         label='Range'
+
                         value={state.value}
                         setState={setState}
                     />

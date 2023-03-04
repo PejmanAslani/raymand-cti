@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {  ArrowLeft  } from 'react-bootstrap-icons'
+import { ArrowLeft } from 'react-bootstrap-icons'
 
 const SideBar = (props: any) => {
 
@@ -16,10 +16,10 @@ const SideBar = (props: any) => {
         //         <ul className='list-unstyled px-2'>
         //             <li><a href='#' className='text-decoration-none px-3 py-2 d-block'>Dashboard</a></li>
         //             <li><a href='#' className='text-decoration-none px-3 py-2 d-block'>Projects</a></li>
-        //
+
         //         </ul>
         //         <hr style={{ color: "white" }} className='h-color mx-3' />
-        //
+
         //     </div>
         // }
         // </>

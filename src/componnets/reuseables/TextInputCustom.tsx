@@ -47,7 +47,7 @@ const TextInputCustom = (props: any) => {
   )
 }
 TextInputCustom.defaultProps = {
-  requir: false,
+  required: false,
   disabled: false,
   type: "text",
   min: null,
