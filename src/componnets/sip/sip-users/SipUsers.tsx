@@ -119,7 +119,7 @@ const SipUsers = () => {
         return params.node.data.port == 0 ? (
           <LightbulbFill color="#4b4b4b" size={19} />
         ) : (
-          <LightbulbFill color="#3ae374" size={19} />
+          <LightbulbFill color="#008000" size={19} />
         );
       }
     },
@@ -196,8 +196,7 @@ const SipUsers = () => {
                 <Dropdown.Item
                   onClick={() => {
                     navigate("/sip-users-bulk-edit/index");
-                  }}
-                >
+                  }}>
                   <PencilSquare size={15} />
                   Bulk Edit
                 </Dropdown.Item>

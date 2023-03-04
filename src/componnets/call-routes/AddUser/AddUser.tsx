@@ -47,16 +47,25 @@ const AddUser = (props: any) => {
     //get Users with range or group
     const GetUsers = (e: any) => {
         e.preventDefault();
+        let data: any[] = [];
         let url = props.urlUser;
         PlineTools.postRequest(url, state)
             .then((result: any) => {
-                for (let i = 0; i <= result.data.length; i++) {
-                    setRowData(result.data)
+                if (result.data == "") {
+                    PlineTools.errorDialogMessage(`Empty ${state.type} `)
+                } else {
+                    for (let i = 0; i < result.data.length; i++) {
+                        var obj = {};
+                        obj = { id: result.data[i].id, uid: result.data[i].uid }
+                        data.push(obj)
+                    }
+                    setRowData(data)
                 }
             })
             .catch((error: any) => {
-                PlineTools.errorDialogMessage("An error occurred while executing your request. Contact the system administrator");
+                PlineTools.errorDialogMessage("error");
             });
+
     };
     //load users from backend
     const getData = () => {
@@ -87,22 +96,10 @@ const AddUser = (props: any) => {
         let url = "/outbound-route-users/" + RouteID;
         for (var i = 0; i < result.length; i++) {
             var obj = {};
-            obj = { id: null, outboundRoute: { id: RouteID }, sipUser: { id: result[i].id }, enable: true }
+            obj = { id: result[i].id, uid: result[i].uid }
             data.push(obj)
         }
-        PlineTools.postRequest(url, data)
-            .then((result) => {
-                if (result.data.hasError) {
-                    PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
-                } else {
-                    props.reload();
-                }
-            })
-            .catch((error) => {
-                PlineTools.errorDialogMessage(
-                    "An error occurred while executing your request. Contact the system administrator"
-                );
-            });
+        setRowData(data)
     };
     const Save = () => {
         let data: any[] = [];
@@ -122,6 +119,7 @@ const AddUser = (props: any) => {
                     PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
                 } else {
                     props.reload();
+                    props.modal(false)
                 }
             })
             .catch((error) => {

@@ -20,7 +20,19 @@ function AddPattern(props: any) {
     sequential: 0,
     enable: true,
   });
-
+  const Reset = () => {
+    setState({
+      id: null,
+      outboundRoute: {
+        id: props.id,
+      },
+      dropNumber: 0,
+      prefixNum: "",
+      pattern: "",
+      sequential: 0,
+      enable: true,
+    })
+  }
   //get Data For View
   const getData = () => {
     const id = props.id;
@@ -37,24 +49,28 @@ function AddPattern(props: any) {
         );
       });
   };
-  const saveChanges = (data: any) => {
+  const save = (e: any) => {
+    e.preventDefault();
     let RouteID = props.id;
     setState({ ...state, outboundRoute: { id: RouteID } });
     let url = props.urlPattern + RouteID;
-    PlineTools.postRequest(url, data)
+    PlineTools.postRequest(url, rowData)
       .then((result) => {
         if (result.data.hasError) {
           PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
         } else {
           props.reload();
+          props.modal(false);
         }
       })
       .catch((error) => {
+        Reset()
         PlineTools.errorDialogMessage(
           "An error occurred while executing your request. Contact the system administrator"
         );
       });
-  };
+  }
+
   //Load Component
   useEffect(() => {
     getData();
@@ -64,29 +80,16 @@ function AddPattern(props: any) {
     let RouteID = props.id;
     setState({ ...state, outboundRoute: { id: RouteID } });
     e.preventDefault();
-    let url = "/outbound-route-patterns/" + RouteID;
     //push data into array
     var data: any[] = [state].concat(rowData);
     //check duplication
     if (PlineTools.duplicatePattern(data)) {
-      PlineTools.postRequest(url, data)
-        .then((result) => {
-          if (result.data.hasError) {
-            PlineTools.errorDialogMessage(result.data.messages);
-          } else {
-            props.reload();
-            getData();
-          }
-        })
-        .catch((error) => {
-          PlineTools.errorDialogMessage(
-            "An error occurred while executing your request. Contact the system administrator"
-          );
-        });
+      setRowData(data)
+      Reset()
     } else {
       PlineTools.errorDialogMessage("Duplicate Pattern")
+      Reset()
     }
-
   };
 
   function CheckBox(params: any) {
@@ -101,7 +104,7 @@ function AddPattern(props: any) {
           let colId = params.column.colId;
           params.node.setDataValue(colId, value);
           params.api.forEachNode((node: any) => newRowData.push(node.data));
-          saveChanges(newRowData);
+          setRowData(newRowData)
         }}
       />
     );
@@ -119,7 +122,7 @@ function AddPattern(props: any) {
           e.api.forEachNodeAfterFilter((node: any) =>
             newRowData.push(node.data)
           );
-          saveChanges(newRowData);
+          setRowData(newRowData)
         }}
       >
         <Trash3Fill color="red" />
@@ -131,7 +134,7 @@ function AddPattern(props: any) {
     params.api.forEachNodeAfterFilterAndSort((node: any) =>
       newRowData.push(node.data)
     );
-    saveChanges(newRowData);
+    setRowData(newRowData)
   };
   const columns = [
     { field: "pattern", headerName: "Pattern", width: 120, rowDrag: true },
@@ -160,15 +163,16 @@ function AddPattern(props: any) {
           <TextInputCustom
             md={3}
             setState={setState}
-            label="Prefix Num"
+            label="Prefix"
             name="prefixNum"
             value={state.prefixNum}
           />
           <TextInputCustom
-            md={4}
+            md={6}
             setState={setState}
             label="Pattern"
             name="pattern"
+            required={true}
             value={state.pattern}
           />
           <TextInputCustom
@@ -180,15 +184,31 @@ function AddPattern(props: any) {
             name="dropNumber"
             value={state.dropNumber}
           />
-          <Col md={2}>
-            <Button
-              variant="success"
-              style={{ marginTop: "30px" }}
-              type="submit"
-            >
-              <PlusLg size={20} />
-            </Button>
-          </Col>
+          <Row>
+            <Col>
+              <Button
+                variant="success"
+                type="submit">Add</Button>
+              {" "}
+              <Button
+                variant="primary"
+                onClick={(e: any) => {
+                  save(e)
+                }}
+              >
+                Save
+              </Button>
+              {" "}
+              <Button
+                variant="danger"
+                onClick={() => {
+                  props.modal(false)
+                }}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
         </Row>
         <Row></Row>
       </Form>

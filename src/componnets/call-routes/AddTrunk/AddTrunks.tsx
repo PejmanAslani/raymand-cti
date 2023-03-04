@@ -19,14 +19,25 @@ const AddTrunks = (props: any) => {
     },
     outboundRoute: { id: null },
     duration: 0,
-    enable: false,
+    enable: true,
     sequential: 0
   });
-
+  const Reset = () => {
+    setState({
+      id: null,
+      sipTrunk: {
+        id: 0
+      },
+      outboundRoute: { id: null },
+      duration: 0,
+      enable: true,
+      sequential: 0
+    })
+  }
   const getTrunks = () => {
     PlineTools.getRequest("/sip-trunks").then((result) => {
       setOptions(result.data.content)
-     
+
     })
   }
   const getData = () => {
@@ -41,45 +52,53 @@ const AddTrunks = (props: any) => {
         PlineTools.errorDialogMessage("An error occurred while executing your request. Contact the system administrator");
       });
   }
-  
+
   const Addtrunk = (e: any) => {
     e.preventDefault();
-    let url = "/outbound-route-trunks/" + props.id;
-    var data: any[] = [state].concat(rowData);
-    if (PlineTools.duplicateTrunk(data)) {
-      PlineTools.postRequest(url, data)
-        .then((result: any) => {
-          if (result.data.hasError) {
-            PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
-          } else {
-            props.reload();
-            getData()
-          }
-        })
-        .catch((error: any) => {
-          PlineTools.errorDialogMessage("An error occurred while executing your request. Contact the system administrator");
-
-        });
-
+    if (state.sipTrunk.id === 0) {
+      PlineTools.errorDialogMessage("Select trunk ")
     } else {
-      PlineTools.errorDialogMessage("Duplicate Trunk Choose Another one")
+      let url = "/outbound-route-trunks/" + props.id;
+      var data: any[] = [state].concat(rowData);
+      if (PlineTools.duplicateTrunk(data)) {
+        PlineTools.postRequest(url, data)
+          .then((result: any) => {
+            if (result.data.hasError) {
+              PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+            } else {
+              props.reload();
+              getData()
+            }
+          })
+          .catch((error: any) => {
+            PlineTools.errorDialogMessage("An error occurred while executing your request. Contact the system administrator");
+
+          });
+
+      } else {
+        PlineTools.errorDialogMessage("Duplicate Trunk Choose Another one")
+      }
+
     }
 
   }
   //for Grid Options
-  const saveChanges = (data: any) => {
+  const save = () => {
     let RouteID = props.id;
     setState({ ...state, outboundRoute: { id: RouteID } });
     let url = props.urlTrunk + RouteID;
-    PlineTools.postRequest(url, data)
+    PlineTools.postRequest(url, rowData)
       .then((result) => {
         if (result.data.hasError) {
           PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
         } else {
+          Reset()
           props.reload();
+          props.modal(false)
         }
       })
       .catch((error) => {
+        Reset()
         PlineTools.errorDialogMessage("An error occurred while executing your request. Contact the system administrator");
       });
   }
@@ -106,7 +125,7 @@ const AddTrunks = (props: any) => {
       let colId = params.column.colId;
       params.node.setDataValue(colId, value);
       params.api.forEachNode((node: any) => newRowData.push(node.data))
-      saveChanges(newRowData)
+      setRowData(newRowData)
     }} />
   }
 
@@ -118,7 +137,7 @@ const AddTrunks = (props: any) => {
           remove: [e.node.data],
         });
         e.api.forEachNodeAfterFilter((node: any) => newRowData.push(node.data));
-        saveChanges(newRowData);
+        setRowData(newRowData);
 
       }
     }>
@@ -127,7 +146,7 @@ const AddTrunks = (props: any) => {
   const dragSort = (params: any) => {
     let newRowData: any[] = [];
     params.api.forEachNodeAfterFilterAndSort((node: any) => newRowData.push(node.data));
-    saveChanges(newRowData);
+    setRowData(newRowData);
   }
   return (
     <div className='container'>
@@ -169,7 +188,15 @@ const AddTrunks = (props: any) => {
         <Row>
           <Col md={6}>
             <Button variant="success" type="submit">
-              Add Trunk
+              Add
+            </Button>
+            {" "}
+            <Button variant='primary'
+              onClick={() => {
+                save()
+              }}
+            >
+              Save
             </Button>
             {" "}
             <Button variant="danger" onClick={() => { props.modal(false) }}>
