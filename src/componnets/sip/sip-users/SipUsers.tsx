@@ -116,7 +116,7 @@ const SipUsers = () => {
     {
       field: "port", headerName: "", filter: false, sortable: false, width: "60", cellRenderer: (params: any) => {
 
-        return params.node.data.port === 0 ? (
+        return params.node.data.port == 0 ? (
           <LightbulbFill color="#4b4b4b" size={19} />
         ) : (
           <LightbulbFill color="#3ae374" size={19} />
