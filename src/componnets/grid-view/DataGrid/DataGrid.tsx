@@ -7,7 +7,7 @@ import './Overlay.css'
 import Overlay from './Overlay';
 
 const DataGrid = (props: any) => {
-    
+
     const gridRef = useRef<AgGridReact>(null);
     const defaultColDef = useMemo(() => {
         return {
@@ -58,23 +58,23 @@ const DataGrid = (props: any) => {
         };
     }, []);
     return (
-     
-            <div className="ag-theme-alpine" style={props.style}>
-                <AgGridReact
-                    ref={gridRef}
-                    icons={icons}
-                    gridOptions={gridOptions}
-                    onRowDragEnd={props.dragSort}
-                    rowData={props.rowData}
-                    defaultColDef={defaultColDef}
-                    loadingOverlayComponent={loadingOverlayComponent}
-                    rowDragManaged={props.dnd}
-                    pagination={props.paging}
-                    paginationPageSize={props.pageSize}
-                    columnDefs={props.columnDefs}>
-                </AgGridReact>
-            </div>
-       
+
+        <div className="ag-theme-alpine" style={props.style}>
+            <AgGridReact
+                ref={gridRef}
+                icons={icons}
+                gridOptions={gridOptions}
+                onRowDragEnd={props.dragSort}
+                rowData={props.rowData}
+                defaultColDef={defaultColDef}
+                loadingOverlayComponent={loadingOverlayComponent}
+                rowDragManaged={props.dnd}
+                pagination={props.paging}
+                paginationPageSize={props.pageSize}
+                columnDefs={props.columnDefs}>
+            </AgGridReact>
+        </div>
+
     )
 }
 DataGrid.defaultProps = {

@@ -49,23 +49,27 @@ const AddUser = (props: any) => {
         e.preventDefault();
         let data: any[] = [];
         let url = props.urlUser;
-        PlineTools.postRequest(url, state)
-            .then((result: any) => {
-                if (result.data == "") {
-                    PlineTools.errorDialogMessage(`Empty ${state.type} `)
-                } else {
-                    for (let i = 0; i < result.data.length; i++) {
-                        var obj = {};
-                        obj = { id: result.data[i].id, uid: result.data[i].uid }
-                        data.push(obj)
+        if (state.type === "group" && state.value == "") {
+            PlineTools.errorDialogMessage("Please Select a Group Before Add")
+        } else {
+            PlineTools.postRequest(url, state)
+                .then((result: any) => {
+                    if (result.data == "") {
+                        PlineTools.errorDialogMessage(`Empty ${state.type} `)
+                    } else {
+                        for (let i = 0; i < result.data.length; i++) {
+                            var obj = {};
+                            obj = { id: result.data[i].id, uid: result.data[i].uid }
+                            data.push(obj)
+                        }
+                        setRowData(data)
                     }
-                    setRowData(data)
-                }
-            })
-            .catch((error: any) => {
-                PlineTools.errorDialogMessage("error");
-            });
-
+                })
+                .catch((error: any) => {
+                    console.log(error)
+                    PlineTools.errorDialogMessage("error");
+                });
+        }
     };
     //load users from backend
     const getData = () => {
@@ -247,7 +251,6 @@ const AddUser = (props: any) => {
                 columnDefs={columns}
                 rowData={rowData}
             />
-
         </div>
     );
 };

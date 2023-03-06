@@ -52,7 +52,6 @@ const AddTrunks = (props: any) => {
         PlineTools.errorDialogMessage("An error occurred while executing your request. Contact the system administrator");
       });
   }
-
   const Addtrunk = (e: any) => {
     e.preventDefault();
     if (state.sipTrunk.id === 0) {
@@ -78,9 +77,7 @@ const AddTrunks = (props: any) => {
       } else {
         PlineTools.errorDialogMessage("Duplicate Trunk Choose Another one")
       }
-
     }
-
   }
   //for Grid Options
   const save = () => {
@@ -128,7 +125,6 @@ const AddTrunks = (props: any) => {
       setRowData(newRowData)
     }} />
   }
-
   function DeleteRow(e: any) {
     return <p style={{ cursor: "pointer" }} onClick={
       () => {
@@ -138,7 +134,6 @@ const AddTrunks = (props: any) => {
         });
         e.api.forEachNodeAfterFilter((node: any) => newRowData.push(node.data));
         setRowData(newRowData);
-
       }
     }>
       <Trash3Fill color="red" /></p>
@@ -146,6 +141,9 @@ const AddTrunks = (props: any) => {
   const dragSort = (params: any) => {
     let newRowData: any[] = [];
     params.api.forEachNodeAfterFilterAndSort((node: any) => newRowData.push(node.data));
+    newRowData.forEach((v: any, i: number) => {
+      v.sequential = i;
+    });
     setRowData(newRowData);
   }
   return (
@@ -157,7 +155,7 @@ const AddTrunks = (props: any) => {
 
           <Col md={8}>
             <Form.Group className="mb-3" controlId="sipTrunks">
-              <Form.Label>SIP Tunks</Form.Label>
+              <Form.Label>SIP Trunks</Form.Label>
               <ToolTipCustom />
               <select
 

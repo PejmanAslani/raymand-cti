@@ -31,7 +31,7 @@ const SipTrunks = () => {
   const getData = (page = 0, size = 99999) => {
     PlineTools.getRequest(`/sip-trunks/?page=${page}&size=${size}`)
       .then((data) => {
-        
+
         setRowData(data.data.content);
       })
       .catch((error) => {
@@ -108,7 +108,7 @@ const SipTrunks = () => {
           </Col>
         </Row>
         <br />
-        <h4 style={{ fontFamily: "monospace", fontWeight: "400" }}>Sip Trunks</h4>
+        <h4 style={{ fontFamily: "monospace", fontWeight: "400" }}>SIP Trunks</h4>
         <DataGrid
           dnd={false}
           paging={true}

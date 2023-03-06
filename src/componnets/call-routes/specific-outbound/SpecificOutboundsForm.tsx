@@ -78,6 +78,14 @@ const SpecificOutboundsForm = (props: any) => {
         <hr />
         <Form onSubmit={saveData}>
           <Row>
+            <CheckboxCustom
+             name="enable"
+             label="Enable"
+             setState={setState}
+             checked={state.enable}
+            />
+          </Row>
+          <Row>
             <TextInputCustom
               name="name"
               label="Name"
@@ -85,7 +93,6 @@ const SpecificOutboundsForm = (props: any) => {
               setState={setState}
               require={true}
             />
-
             <TextareaCustom
               name="description"
               label="Description"
@@ -103,8 +110,7 @@ const SpecificOutboundsForm = (props: any) => {
                 variant="danger"
                 onClick={() => {
                   props.modal(false);
-                }}
-              >
+                }}>
                 Exit
               </Button>
             </Col>

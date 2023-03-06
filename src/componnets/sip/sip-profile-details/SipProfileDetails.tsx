@@ -212,7 +212,7 @@ const SipProfileDetails = () => {
 
   const submit = (e: any) => {
     e.preventDefault();
-    console.log(state);
+
     // state.id = profileParam.id;
     // PlineTools.postRequest("/sip-profile-details/save", state)
     //   .then((result) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
 import {
-  CheckLg, Lightbulb, LightbulbFill,
+  CheckLg, LightbulbFill,
   PencilSquare,
   PlusLg,
   Trash,
@@ -131,7 +131,7 @@ const SipUsers = () => {
       }
     },
     { field: "uid", headerName: "User", width: "250" },
-    { field: "sipProfile.name", headerName: "Sip Profile", width: "250" },
+    { field: "sipProfile.name", headerName: "Sip Profile", width: "220" },
     { field: "sipUserGroup.name", headerName: "Sip Group", width: "auto" },
     {
       field: "enable",
@@ -149,7 +149,7 @@ const SipUsers = () => {
     },
   ];
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <div style={{ width: "100%", height: "70%" }}>
       <Container>
         <Row>
           <ModalCustom
@@ -223,7 +223,7 @@ const SipUsers = () => {
         </Row>
         <br />
         <h4 style={{ fontFamily: "monospace", fontWeight: "400" }}>
-          Sip Users
+          SIP Users
         </h4>
         <DataGrid
           flex={0}

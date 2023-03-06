@@ -47,7 +47,7 @@ const Header = (props: IHeaderProps) => {
         .catch((error) => {
           PlineTools.dialogMessage(
             "An error occurred while executing your request. Contact the system administrator\n" +
-              error,
+            error,
             "Error",
             TypeMessage.ERROR
           );
@@ -79,8 +79,9 @@ const Header = (props: IHeaderProps) => {
                 >
                   <NavDropdown
                     title="Sip Settings"
-                    id="basic-nav-dropdown"
+                    id="nav-dropdown"
                     drop="end"
+
                   >
                     <NavDropdown.Item as={Link} to="/settings/sip-globals">
                       Global SIP Settings

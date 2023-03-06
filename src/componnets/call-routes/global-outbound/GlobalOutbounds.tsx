@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
 import {
-  BuildingGear,
+  BuildingGear, CheckLg,
   Diagram2,
   PencilFill,
   PencilSquare,
   PlusLg,
-  Trash3Fill,
+  Trash3Fill, XLg,
 } from "react-bootstrap-icons";
 import PlineTools, { TypeAlert } from "../../services/PlineTools";
 import GlobalOutboundsForm from "./GlobalOutboundsForm";
@@ -23,27 +23,42 @@ const GlobalOutbounds = () => {
   const navigate = useNavigate();
   //Modal Hooks
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modaltype, setmodalType] = useState({});
+  const [modalType, setModalType] = useState({});
   const [sizeModal, setSizeModal] = useState("");
   const saveChanges = (data: any) => {
     let url = "/outbound-routes";
-    data.forEach((v: any, i: number) => {
-      v.sequential = i;
-      
-    });
-    // PlineTools.patchRequest(url, data)
-    //   .then((result) => {
-    //     if (result.data.hasError) {
-    //       PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
-    //     } else {
-    //       reload();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     PlineTools.errorDialogMessage(
-    //       "An error occurred while executing your request. Contact the system administrator"
-    //     );
-    //   });
+    if (data.length > 1) {
+      for (let i = 0; i < data.length; i++) {
+        PlineTools.patchRequest(url, data[i])
+          .then((result) => {
+            if (result.data.hasError) {
+              PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+            } else {
+              reload();
+            }
+          })
+          .catch((error) => {
+            PlineTools.errorDialogMessage(
+              "An error occurred while executing your request. Contact the system administrator"
+            );
+          });
+      }
+    } else {
+      PlineTools.patchRequest(url, data)
+        .then((result) => {
+          if (result.data.hasError) {
+            PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+          } else {
+            reload();
+          }
+        })
+        .catch((error) => {
+          PlineTools.errorDialogMessage(
+            "An error occurred while executing your request. Contact the system administrator"
+          );
+        });
+    }
+
   };
   const getData = (page = 0, size = pageSize) => {
     PlineTools.getRequest(`/outbound-routes/?page=${page}&size=${size}`)
@@ -57,7 +72,7 @@ const GlobalOutbounds = () => {
       .catch((error) => {
         PlineTools.errorDialogMessage(
           "An error occurred while executing your request. Contact the system administrator\n" +
-            error
+          error
         );
       });
   };
@@ -68,18 +83,10 @@ const GlobalOutbounds = () => {
     getData();
   };
   function CheckBox(params: any) {
-    return (
-      <input
-        style={{ cursor: "pointer" }}
-        type="checkbox"
-        checked={params.value}
-        onChange={(e: any) => {
-          const value = e.target.checked;
-          let colId = params.column.colId;
-          params.node.setDataValue(colId, value);
-          saveChanges(params.node.data);
-        }}
-      />
+    return params.node.data.enable ? (
+      <CheckLg color="#6BBD49" size={19} />
+    ) : (
+      <XLg color="red" size={19} />
     );
   }
 
@@ -90,7 +97,7 @@ const GlobalOutbounds = () => {
         onClick={() => {
           setSizeModal("lg");
           setModalIsOpen(true);
-          setmodalType(
+          setModalType(
             <GlobalOutboundsForm
               id={params.node.data.id}
               modal={setModalIsOpen}
@@ -112,7 +119,7 @@ const GlobalOutbounds = () => {
         onClick={() => {
           setSizeModal("lg");
           setModalIsOpen(true);
-          setmodalType(
+          setModalType(
             <AddPattern
               urlPattern="/outbound-route-patterns/"
               id={params.node.data.id}
@@ -133,7 +140,7 @@ const GlobalOutbounds = () => {
         onClick={() => {
           setSizeModal("lg");
           setModalIsOpen(true);
-          setmodalType(
+          setModalType(
             <AddTrunks
               urlTrunk="/outbound-route-trunks/"
               id={params.node.data.id}
@@ -147,7 +154,6 @@ const GlobalOutbounds = () => {
       </p>
     );
   };
-
   function DeleteRow(e: any) {
     return (
       <p
@@ -178,6 +184,9 @@ const GlobalOutbounds = () => {
     params.api.forEachNodeAfterFilterAndSort((node: any) =>
       newRowData.push(node.data)
     );
+    newRowData.forEach((v: any, i: number) => {
+      v.sequential = i;
+    });
     saveChanges(newRowData);
   };
   const columns = [
@@ -226,7 +235,7 @@ const GlobalOutbounds = () => {
             show={modalIsOpen}
             onHide={() => setModalIsOpen(false)}
           >
-            {modaltype}
+            {modalType}
           </ModalCustom>
           <Col>
             <Button
@@ -235,7 +244,7 @@ const GlobalOutbounds = () => {
               onClick={() => {
                 setSizeModal("lg");
                 setModalIsOpen(true);
-                setmodalType(
+                setModalType(
                   <GlobalOutboundsForm
                     modal={setModalIsOpen}
                     reload={() => reload()}
@@ -252,6 +261,7 @@ const GlobalOutbounds = () => {
           Global OutBound Routes
         </h4>
         <DataGrid
+          dnd={true}
           style={gridStyle}
           dragSort={dragSort}
           columnDefs={columns}

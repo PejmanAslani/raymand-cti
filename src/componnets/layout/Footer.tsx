@@ -5,7 +5,7 @@ function Footer() {
   return (
     <div className="footer">
       {/* <p>کلیه حقوق مرکز تلفن کاج متعلق به شرکت رایمند ارتباطات نقش جهان میباشد</p> */}
-      <p>All Rights of Kaj Call Center Belong to Raymand Naqsh Jahan Communications Company</p>
+      <p>All Rights of RaymandCTI Belong to Raymand Naqsh Jahan Communications Company</p>
     </div>
   );
 }

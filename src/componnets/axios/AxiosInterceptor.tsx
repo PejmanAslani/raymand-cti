@@ -6,12 +6,18 @@ import PlineTools from "../services/PlineTools"
 const axiosConfig = {
     BASE_URL: 'http://localhost',
     PORT: ':8080',
+    TIMEOUT:6000
 }
+
 export const API = axios.create();
+axios.interceptors.request.use(function (config: any) {
+    const token = PlineTools.getCookies('token');
+    config.headers.Authorization = token ? `Bearer ${token}` : ''
+    return config;
+});
+axios.defaults.baseURL = axiosConfig.BASE_URL + axiosConfig.PORT
 
-API.defaults.baseURL = axiosConfig.BASE_URL + axiosConfig.PORT
-
-API.defaults.headers.common['Content-Type'] = 'application/json'
+axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const AxiosInterceptor = ({ children }: any) => {
     axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
@@ -27,11 +33,10 @@ const AxiosInterceptor = ({ children }: any) => {
                 navigate('/login');
                 return;
             }
-
             throw error
         }
-        const interceptor = axios.interceptors.response.use(resInterceptor, errInterceptor)
 
+        const interceptor = axios.interceptors.response.use(resInterceptor, errInterceptor)
         return () => axios.interceptors.response.eject(interceptor)
 
     }, [navigate])

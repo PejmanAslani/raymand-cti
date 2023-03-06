@@ -40,7 +40,7 @@ const BulkEditUsers = () => {
   const saveData = (e: any) => {
     e.preventDefault();
 
-    let url = "/sip-users/bulk-edit-sip-users";
+    let url = "/sip-users/edit-group-sip-users";
     PlineTools.postRequest(url, state)
 
       .then((result) => {

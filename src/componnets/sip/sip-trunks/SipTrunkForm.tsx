@@ -32,7 +32,7 @@ const SipTrunkForm = (props: any) => {
         maxCalls: 0,
         proxy: "",
         enable: false,
-        registerMode: "",
+        registerMode: "NoRegister",
         description: ""
 
     });
@@ -65,7 +65,7 @@ const SipTrunkForm = (props: any) => {
     const saveData = (e: any) => {
         e.preventDefault();
         if (state.sipProfile.id === 0) {
-            PlineTools.showAlert(["SIP Profile not selected."], TypeAlert.Danger);
+            PlineTools.errorDialogMessage("SIP Profile not selected");
             return;
         }
         let url = "/sip-trunks";
@@ -73,7 +73,7 @@ const SipTrunkForm = (props: any) => {
             PlineTools.postRequest(url, state)
                 .then((result) => {
                     if (result.data.hasError) {
-                        PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+                        PlineTools.errorDialogMessage(result.data.messages);
                     } else {
                         navigate('/sip-trunks/index')
                     }
@@ -98,6 +98,7 @@ const SipTrunkForm = (props: any) => {
 
     };
     useEffect(() => {
+        validationSet(state.registerMode)
         load();
     }, []);
 
@@ -122,6 +123,7 @@ const SipTrunkForm = (props: any) => {
                         <CheckboxCustom name="enable" label="Enable" checked={state.enable} setState={setState} />
                     </Row>
                     <Row>
+
                         <TextInputCustom
                             name="name"
                             label="Name"
@@ -177,22 +179,6 @@ const SipTrunkForm = (props: any) => {
                             label="From Domain"
                             required={false}
                             value={state.fromDomain}
-                            setState={setState}
-                        />
-                    </Row>
-                    <Row>
-                        <TextInputCustom
-                            name="callerIdName"
-                            label="Calller ID Name"
-                            required={false}
-                            value={state.callerIdName}
-                            setState={setState}
-                        />
-                        <TextInputCustom
-                            name="callerIdNumber"
-                            label="Caller ID Number"
-                            required={false}
-                            value={state.callerIdNumber}
                             setState={setState}
                         />
                     </Row>

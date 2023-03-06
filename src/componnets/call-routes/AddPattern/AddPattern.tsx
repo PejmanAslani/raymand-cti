@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import TextInputCustom from "../../reuseables/TextInputCustom";
-import { PlusLg, Trash3Fill } from "react-bootstrap-icons";
+import { Trash3Fill } from "react-bootstrap-icons";
 import PlineTools, { TypeAlert } from "../../services/PlineTools";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
 
@@ -14,7 +14,7 @@ function AddPattern(props: any) {
     outboundRoute: {
       id: props.id,
     },
-    dropNumber: 0,
+    dropNumber: null,
     prefixNum: "",
     pattern: "",
     sequential: 0,
@@ -26,7 +26,7 @@ function AddPattern(props: any) {
       outboundRoute: {
         id: props.id,
       },
-      dropNumber: 0,
+      dropNumber: null,
       prefixNum: "",
       pattern: "",
       sequential: 0,
@@ -134,12 +134,15 @@ function AddPattern(props: any) {
     params.api.forEachNodeAfterFilterAndSort((node: any) =>
       newRowData.push(node.data)
     );
+    newRowData.forEach((v: any, i: number) => {
+      v.sequential = i;
+    });
     setRowData(newRowData)
   };
   const columns = [
     { field: "pattern", headerName: "Pattern", width: 120, rowDrag: true },
     { field: "dropNumber", headerName: "Drop Number" },
-    { field: "prefixNum", headerName: "Prefix Num" },
+    { field: "prefixNum", headerName: "Prefix Num", },
     {
       field: "enable",
       headerName: "Enable",

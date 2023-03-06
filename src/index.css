@@ -26,12 +26,12 @@ code {
 
 .dropdown-menu.show a {
   font-weight: 450;
-  color: #51597B;
+  color: #51597B !important;
 }
 
 .dropdown-menu.show a:hover {
   background-color: #3B3B98;
-  color: floralwhite;
+  color: floralwhite !important;
 }
 
 .dropdown-divider {

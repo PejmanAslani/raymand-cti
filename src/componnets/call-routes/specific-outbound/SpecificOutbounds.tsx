@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react'
 import DataGrid from '../../grid-view/DataGrid/DataGrid'
 import {
 
-    BuildingGear,
+    BuildingGear, CheckLg,
     Diagram2,
     PencilSquare,
     PersonFillAdd,
     PlusLg,
-    Trash3Fill
+    Trash3Fill, XLg
 } from 'react-bootstrap-icons';
 import PlineTools, { TypeAlert } from '../../services/PlineTools';
 import GlobalOutboundsForm from './SpecificOutboundsForm';
@@ -29,7 +29,6 @@ const SpecificOutbounds = () => {
     const [sizeModal, setSizeModal] = useState("")
     const saveChanges = (data: any) => {
         let url = "/outbound-routes";
-        console.log(data);
         PlineTools.patchRequest(url, data)
             .then((result) => {
                 if (result.data.hasError) {
@@ -67,12 +66,11 @@ const SpecificOutbounds = () => {
         getData();
     }
     function CheckBox(params: any) {
-        return <input style={{ cursor: "pointer" }} type="checkbox" checked={params.value} onChange={(e: any) => {
-            const value = e.target.checked;
-            let colId = params.column.colId;
-            params.node.setDataValue(colId, value);
-            saveChanges(params.node.data)
-        }} />
+        return params.node.data.enable ? (
+            <CheckLg color="#6BBD49" size={19} />
+        ) : (
+            <XLg color="red" size={19} />
+        );
     }
 
     const Edit = (params: any) => {

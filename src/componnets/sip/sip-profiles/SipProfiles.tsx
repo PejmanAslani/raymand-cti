@@ -117,7 +117,7 @@ const SipProfiles = () => {
           </Col>
         </Row>
         <br />
-        <h4 style={{ fontFamily: "monospace", fontWeight: "400" }}>Sip Profiles</h4>
+        <h4 style={{ fontFamily: "monospace", fontWeight: "400" }}>SIP Profiles</h4>
         <DataGrid
           dnd={false}
           paging={true}
