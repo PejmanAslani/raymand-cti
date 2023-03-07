@@ -3,6 +3,7 @@ import DataGrid from '../../grid-view/DataGrid/DataGrid'
 import {
 
     BuildingGear, CheckLg,
+    CircleFill,
     Diagram2,
     PencilSquare,
     PersonFillAdd,
@@ -66,11 +67,7 @@ const SpecificOutbounds = () => {
         getData();
     }
     function CheckBox(params: any) {
-        return params.node.data.enable ? (
-            <CheckLg color="#6BBD49" size={19} />
-        ) : (
-            <XLg color="red" size={19} />
-        );
+        return params.node.data.enable ? <CircleFill color='#7CB518' size={15} /> : <CircleFill color='#E63946' size={15} />;
     }
 
     const Edit = (params: any) => {
@@ -130,12 +127,13 @@ const SpecificOutbounds = () => {
     }
     const columns = [
         { field: 'name', headerName: 'Name', width: 120, rowDrag: true },
-        {
-            field: 'enable', headerName: 'Enable', width: 100, cellRenderer: CheckBox,
-        },
+
         { field: 'pattern', headerName: 'Pattern', cellRenderer: Pattern, filter: false, sortable: false },
         { field: 'trunk', headerName: 'Trunk', cellRenderer: Trunk, filter: false, sortable: false },
         { field: 'user', headerName: 'User', cellRenderer: User, filter: false, sortable: false },
+        {
+            field: 'enable', headerName: 'Enable', width: 100, cellRenderer: CheckBox, filter: false,
+        },
         { field: 'edit', headerName: 'Edit', cellRenderer: Edit, filter: false, sortable: false },
         { field: 'delete', headerName: 'Delete', cellRenderer: DeleteRow, filter: false, sortable: false },
 

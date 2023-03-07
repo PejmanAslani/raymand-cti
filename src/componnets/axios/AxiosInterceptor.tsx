@@ -28,8 +28,9 @@ const AxiosInterceptor = ({ children }: any) => {
         }
         const errInterceptor = (error: any) => {
             console.log(error)
-            if (error.response?.status === 401) {
+            if (error.request.status === 0) {
                 PlineTools.removeCookies('token');
+                PlineTools.errorDialogMessage("Time Expire");
                 navigate('/login');
                 return;
             }

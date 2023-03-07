@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import TextInputCustom from '../../../reuseables/TextInputCustom'
 import PlineTools, { TypeAlert } from '../../../services/PlineTools'
-import { useNavigate } from 'react-router'
+
 
 const BulkDeleteUsers = (props: any) => {
-  const navigate = useNavigate();
+
   const [state, setState] = useState({
     range: ""
   })
@@ -16,9 +16,10 @@ const BulkDeleteUsers = (props: any) => {
       PlineTools.postRequest(url, state)
         .then((result) => {
           if (result.data.hasError) {
-            PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
+            PlineTools.errorDialogMessage("Invalid Range");
           } else {
-            navigate("/sip-users/index");
+            props.modal(false);
+            props.reload()
           }
         })
         .catch((error) => {

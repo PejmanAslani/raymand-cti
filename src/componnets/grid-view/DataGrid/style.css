@@ -92,11 +92,11 @@
 
     --ag-header-height: 40px;
     --ag-header-foreground-color: white;
-    --ag-header-background-color: rgb(50, 3, 126);
+    --ag-header-background-color: #457B9D;
     --ag-header-cell-hover-background-color: #060047;
     --ag-header-cell-moving-background-color: blue;
     --ag-header-foreground-color: white;
-    --ag-border-color: rgb(46, 44, 168);
+    --ag-border-color: #457B9D;
     --ag-row-border-color: rgb(154, 171, 206);
 }
 
@@ -105,5 +105,5 @@
 }
 
 .ag-icon {
-    color: rgb(177, 147, 247)
+    color: #F1FAEE;
 }

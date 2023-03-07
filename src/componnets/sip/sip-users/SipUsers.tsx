@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
 import {
-  CheckLg, LightbulbFill,
+  CheckLg, CircleFill, LightbulbFill,
   PencilSquare,
   PlusLg,
   Trash,
@@ -62,11 +62,7 @@ const SipUsers = () => {
   };
 
   function CheckBox(params: any) {
-    return params.node.data.enable ? (
-      <CheckLg color="#6BBD49" size={19} />
-    ) : (
-      <XLg color="red" size={19} />
-    );
+    return params.node.data.enable ? <CircleFill color='#7CB518' size={15} /> : <CircleFill color='#E63946' size={15} />;
   }
   const actions = (params: any) => {
     let id = params.node.data.id;

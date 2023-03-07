@@ -62,7 +62,7 @@ const Header = (props: IHeaderProps) => {
         <Navbar
           className="text-white"
           expand="lg"
-          style={{ backgroundColor: "#3B3B98 ", boxShadow: "2px 2px #C4C4C5" }}
+          style={{ backgroundColor: "#1D3557 ", boxShadow: "2px 2px #C4C4C5" }}
           variant="dark"
         >
           <Container fluid>

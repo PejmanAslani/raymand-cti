@@ -1,13 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
-import { CheckLg, PencilSquare, PlusLg, Sliders2, Sliders2Vertical, Trash3Fill, XLg } from "react-bootstrap-icons";
+import { CheckLg, CircleFill, Pen, PencilSquare, PlusLg, Power, Sliders, Sliders2, Sliders2Vertical, Trash3Fill, XLg } from "react-bootstrap-icons";
 import PlineTools, { TypeAlert } from "../../services/PlineTools";
 import ModalCustom from "../../reuseables/modal/ModalCustom";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import SipProfileForm from "./SipProfileForm";
 
 
 const SipProfiles = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modaltype, setmodalType] = useState({});
+  const [sizeModal, setSizeModal] = useState("")
   const params = useParams();
   const navigate = useNavigate();
   const gridStyle = useMemo(() => ({ height: 580, width: "100%" }), []);
@@ -52,17 +56,21 @@ const SipProfiles = () => {
       <p style={{ cursor: "pointer" }} onClick={() => {
         navigate("/sip-profile-details/" + id);
       }}>
-        <Sliders2Vertical size={18} color="#FF5733" />
+        <Sliders size={18} color="#457B9D" />
       </p>
     );
   }
   function CheckBox(params: any) {
-    return params.node.data.enable ? <CheckLg color='#6BBD49' size={19} /> : <XLg color='red' size={19} />;
+    return params.node.data.enable ? <CircleFill color='#7CB518' size={16} /> : <CircleFill color='#E63946' size={16} />;
   }
   const actions = (params: any) => {
     let id = params.node.data.id;
     return (<>
-      <PencilSquare style={{ cursor: "pointer" }} color="green" size={17} onClick={() => { navigate("/sip-users/edit/" + id) }} />
+      <Pen style={{ cursor: "pointer" }} color="#FFA62B" size={17} onClick={() => {
+        setSizeModal("lg");
+        setModalIsOpen(true);
+        setmodalType(<SipProfileForm id={id} modal={setModalIsOpen} reload={reload} />)
+      }} />
       <Trash3Fill style={{ paddingLeft: "8px", cursor: "pointer" }} color="red" size={25} onClick={() => { DeleteRow(params) }} />
     </>
     );
@@ -109,10 +117,18 @@ const SipProfiles = () => {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <Container>
+        <ModalCustom size={sizeModal} show={modalIsOpen} onHide={() => setModalIsOpen(false)}>
+          {modaltype}
+        </ModalCustom>
         <Row>
           <Col>
-            <Button style={{ background: "#1B9CFC", border: "none" }} onClick={() => {
-              navigate("/sip-profiles/create");
+            <Button style={{ background: "#7CB518", border: "none" }} onClick={() => {
+              setSizeModal("lg");
+              setModalIsOpen(true);
+              setmodalType(<SipProfileForm
+                modal={setModalIsOpen}
+                reload={() => reload()}
+              />);
             }}>Add Profile <PlusLg size={18} /></Button>
           </Col>
         </Row>

@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
 import SipTrunkForm from "./SipTrunkForm";
-import { CheckLg, Gear, PencilFill, PencilSquare, PlusLg, Trash3Fill, XLg } from "react-bootstrap-icons";
+import { CheckLg, CircleFill, PencilSquare, PlusLg, Trash3Fill, XLg } from "react-bootstrap-icons";
 import PlineTools, { TypeAlert } from "../../services/PlineTools";
-import ModalCustom from "../../reuseables/modal/ModalCustom";
 import { Button, Col, Container, Dropdown, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
@@ -49,13 +48,13 @@ const SipTrunks = () => {
   };
 
   function CheckBox(params: any) {
-    return params.node.data.enable ? <CheckLg color='#6BBD49' size={19} /> : <XLg color='red' size={19} />;
+    return params.node.data.enable ? <CircleFill color='#7CB518' size={15} /> : <CircleFill color='#E63946' size={15} />;
   }
   const actions = (params: any) => {
     let id = params.node.data.id;
     return (<>
-      <PencilSquare style={{ cursor: "pointer" }} color="green" size={17} onClick={() => { navigate("/sip-trunks/edit/" + id) }} />
-      <Trash3Fill style={{ paddingLeft: "8px", cursor: "pointer" }} color="red" size={25} onClick={() => { DeleteRow(params) }} />
+      <PencilSquare style={{ cursor: "pointer" }} color="#7CB518" size={17} onClick={() => { navigate("/sip-trunks/edit/" + id) }} />
+      <Trash3Fill style={{ paddingLeft: "8px", cursor: "pointer" }} color="#E63946" size={25} onClick={() => { DeleteRow(params) }} />
     </>
     );
   }
@@ -63,7 +62,7 @@ const SipTrunks = () => {
     if (window.confirm("Are you sure you want to delete this Profile?")) {
       e.api.applyTransaction({
         remove: [e.node.data],
-      });
+      })
       PlineTools.deleteRequest("/sip-trunks/", e.node.data.id).then((result) => {
         if (result.data.hasError) {
           PlineTools.showAlert(result.data.messages, TypeAlert.Danger);

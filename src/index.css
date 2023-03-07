@@ -26,16 +26,16 @@ code {
 
 .dropdown-menu.show a {
   font-weight: 450;
-  color: #51597B !important;
+  color: #457B9D !important;
 }
 
 .dropdown-menu.show a:hover {
-  background-color: #3B3B98;
-  color: floralwhite !important;
+  background-color: #457B9D;
+  color: #F1FAEE !important;
 }
 
 .dropdown-divider {
-  background-color: aliceblue !important;
+  background-color: #F1FAEE !important;
 }
 
 .Form {

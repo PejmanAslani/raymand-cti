@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
 import {
   BuildingGear, CheckLg,
+  CircleFill,
   Diagram2,
   PencilFill,
   PencilSquare,
@@ -83,13 +84,8 @@ const GlobalOutbounds = () => {
     getData();
   };
   function CheckBox(params: any) {
-    return params.node.data.enable ? (
-      <CheckLg color="#6BBD49" size={19} />
-    ) : (
-      <XLg color="red" size={19} />
-    );
+    return params.node.data.enable ? <CircleFill color='#7CB518' size={15} /> : <CircleFill color='#E63946' size={15} />;
   }
-
   const Edit = (params: any) => {
     return (
       <p
@@ -191,12 +187,7 @@ const GlobalOutbounds = () => {
   };
   const columns = [
     { field: "name", headerName: "Name", width: 120, rowDrag: true },
-    {
-      field: "enable",
-      headerName: "Enable",
-      width: 100,
-      cellRenderer: CheckBox,
-    },
+
     {
       field: "pattern",
       headerName: "Pattern",
@@ -210,6 +201,13 @@ const GlobalOutbounds = () => {
       cellRenderer: Trunk,
       filter: false,
       sortable: false,
+    },
+    {
+      field: "enable",
+      headerName: "Enable",
+      width: 100,
+      filter: false,
+      cellRenderer: CheckBox,
     },
     {
       field: "edit",
