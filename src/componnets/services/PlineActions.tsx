@@ -10,3 +10,9 @@ export enum PlineActions {
     DirectDial = 8,
     APIInterface = 9,
 };
+export interface IPlineActions {
+    id?: number;
+    action: PlineActions;
+    value: any;
+    options: any;
+}
