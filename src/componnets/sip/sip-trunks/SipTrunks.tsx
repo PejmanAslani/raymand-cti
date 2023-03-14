@@ -101,9 +101,9 @@ const SipTrunks = () => {
       <Container>
         <Row>
           <Col>
-            <Button style={{ background: "#1B9CFC", border: "none" }} onClick={() => {
+            <Button style={{ background: "#7CB518", border: "none" }} onClick={() => {
               navigate("/sip-trunks/create");
-            }}>Add Trunk <PlusLg size={18} /></Button>
+            }}>Trunk <PlusLg size={18} color="#FFFFFF" /></Button>
           </Col>
         </Row>
         <br />

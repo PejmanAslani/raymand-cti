@@ -63,7 +63,7 @@ const SipProfileForm = (props: any) => {
   return (
     <>
       <Row>
-        <Col md={{ span: 8, offset: 2 }}>
+        <Col md={{ span: 10, offset: 2 }}>
           <h5>SIP Profiles</h5>
           <hr />
           <Form onSubmit={saveData}>

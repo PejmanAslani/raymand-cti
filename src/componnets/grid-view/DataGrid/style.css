@@ -92,18 +92,24 @@
 
     --ag-header-height: 40px;
     --ag-header-foreground-color: white;
-    --ag-header-background-color: #457B9D;
+    --ag-header-background-color: #1D3557;
     --ag-header-cell-hover-background-color: #060047;
     --ag-header-cell-moving-background-color: blue;
     --ag-header-foreground-color: white;
-    --ag-border-color: #457B9D;
+    --ag-border-color: #1D3557;
     --ag-row-border-color: rgb(154, 171, 206);
 }
-
 .ag-theme-alpine .ag-paging-panel {
-    color: rgb(50, 3, 126);
+    color: #1D3557;
 }
 
-.ag-icon {
-    color: #F1FAEE;
+.ag-theme-alpine .ag-header-group-cell {
+
+    font-weight: normal;
+    font-size: 22px;
+}
+
+.ag-theme-alpine .ag-header-cell {
+
+    font-size: 12px;
 }

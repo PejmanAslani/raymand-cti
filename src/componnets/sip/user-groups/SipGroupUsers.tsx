@@ -108,14 +108,14 @@ const SipGroupUsers = () => {
                         {modaltype}
                     </ModalCustom>
                     <Col>
-                        <Button style={{ background: "#1B9CFC", border: "none" }} className='btn-grid' onClick={() => {
+                        <Button style={{ background: "#7CB518", border: "none" }} className='btn-grid' onClick={() => {
                             setSizeModal("lg");
                             setModalIsOpen(true);
                             setmodalType(<SipUserGroupsForm
                                 modal={setModalIsOpen}
                                 reload={() => reload()}
                             />);
-                        }}>Add Sip Group <PlusLg size={18} /></Button>
+                        }}>Sip Group<PlusLg size={20} color='#FFFFFF' /></Button>
                     </Col>
                 </Row>
                 <br />

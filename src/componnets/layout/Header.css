@@ -4,13 +4,11 @@
 
 .apply {
   color: rgb(255, 255, 255);
-
 }
 
 .apply:hover {
 
-  color: rgb(185, 127, 240);
-
+  color: #457B9D;
 }
 
 #side-nav {
@@ -59,7 +57,12 @@ hr .h-color {
 .nav-link a {
   color: #ffff;
 }
+
 .navbar-nav {
   padding-left: 50px;
   padding-right: 60px;
+}
+
+.sipdrop a {
+  padding-left: 10px
 }

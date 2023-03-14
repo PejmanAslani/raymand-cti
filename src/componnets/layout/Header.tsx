@@ -4,14 +4,10 @@ import {
   Navbar,
   Nav,
   NavDropdown,
-  Col,
-  Button,
+
 } from "react-bootstrap";
 import {
-  ArrowBarLeft,
-  ArrowRight,
-  List,
-  ListTask,
+
   PersonCircle,
 } from "react-bootstrap-icons";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -26,6 +22,7 @@ interface IHeaderProps {
 }
 
 const Header = (props: IHeaderProps) => {
+  const [toggleNav, setToggleNav] = useState(true)
   const navigate = useNavigate();
   const navDropdownTitle = (
     <>
@@ -54,23 +51,22 @@ const Header = (props: IHeaderProps) => {
         });
     }
   };
-
   return (
     <div className="main-container d-flex">
       <SideBar visable={visable} toggle={ToggleSidebar} />
       <div className="content">
         <Navbar
-          className="text-white"
+          collapseOnSelect
           expand="lg"
           style={{ backgroundColor: "#1D3557 ", boxShadow: "2px 2px #C4C4C5" }}
           variant="dark"
         >
-          <Container fluid>
-            {!visable && (
+          <Container>
+            {/* {!visable && (
               <List color="#fff" onClick={ToggleSidebar} size={25} />
-            )}
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+            )} */}
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
                 <NavDropdown
                   className="nav-menu"
@@ -81,78 +77,69 @@ const Header = (props: IHeaderProps) => {
                     title="Sip Settings"
                     id="nav-dropdown"
                     drop="end"
-
+                    
                   >
-                    <NavDropdown.Item as={Link} to="/settings/sip-globals">
+                    <NavDropdown.Item href="#/settings/sip-globals">
                       Global SIP Settings
                     </NavDropdown.Item>
                     <NavDropdown.Item
-                      as={Link}
-                      to="/settings/system-sip-settings"
+                      href="#/settings/system-sip-settings"
                     >
                       System SIP Settings
                     </NavDropdown.Item>
                   </NavDropdown>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/sip-profiles/index">
+                  <NavDropdown.Item href="#/sip-profiles/index">
                     SIP Profiles
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/sip-trunks/index">
+                  <NavDropdown.Item href="#/sip-trunks/index">
                     SIP Trunks
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/sip-group-users/index">
+                  <NavDropdown.Item href="#/sip-group-users/index">
                     Sip User Groups
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/sip-users/index">
+                  <NavDropdown.Item href="#/sip-users/index">
                     Sip Users
                   </NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="Call Routes">
                   <NavDropdown.Item
-                    as={Link}
-                    to="/call-routes/global-outbounds/index"
+                    href="#/call-routes/global-outbounds/index"
                   >
                     Global Outbound Routes
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item
-                    as={Link}
-                    to="/call-routes/specific-outbounds/index"
+                    href="#/call-routes/specific-outbounds/index"
                   >
                     Specific Outbound Routes
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/call-routes/inbounds/index">
+                  <NavDropdown.Item href="#/call-routes/inbounds/index">
                     InBound Routes
                   </NavDropdown.Item>
                 </NavDropdown>
-
                 <NavDropdown title="Timing">
                   <NavDropdown.Item
-                    as={Link}
-                    to="/call-routes/global-outbounds/index"
+                    href="#/call-routes/global-outbounds/index"
                   >
                     Schedules
                   </NavDropdown.Item>
                   <NavDropdown.Item
-                    as={Link}
-                    to="/call-routes/global-outbounds/index"
+                    href="#/call-routes/global-outbounds/index"
                   >
                     New Schedule
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link
-                  onClick={() => {
-                    navigate("/call-reports/index");
-                  }}
+                  href="#/call-reports/index"
                 >
                   Call Reports
                 </Nav.Link>
                 <Nav.Link
-                  onClick={() => {
-                    navigate("/online-view/index");
-                  }}
+                  href="#/online-view/index"
+
                 >
                   Online View
                 </Nav.Link>
@@ -164,15 +151,17 @@ const Header = (props: IHeaderProps) => {
               </Nav>
               <Nav>
                 <NavDropdown
-                  className="nav-left"
+                  className="nav-left me-auto"
                   title={navDropdownTitle}
+
                   id="basic-nav-dropdown dropleft"
                 >
-                  <NavDropdown.Item>{props.fullname}</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/change-password/index">
+                  <NavDropdown.Item disabled  >{props.fullname}</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} href="#" to="/change-password/index">
                     Change Password
                   </NavDropdown.Item>
                   <NavDropdown.Item
+                    href="#"
                     onClick={() => {
                       props.LogoutAction();
                     }}
@@ -181,23 +170,26 @@ const Header = (props: IHeaderProps) => {
                   </NavDropdown.Item>
                 </NavDropdown>
 
-                <Nav.Link onClick={apply} className="apply">
+                <Nav.Link onClick={apply} className="apply" href="#">
                   Apply
                 </Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        <div
-          className="dashboard-content px-3 pt-4"
-          style={{ paddingBottom: "3.5vw" }}
-        >
-          {props.AlertView}
 
-          <Outlet />
-        </div>
+        <Container>
+          <div
+            className="dashboard-content px-3 pt-4"
+            style={{ paddingBottom: "3.5vw" }}
+          >
+            {props.AlertView}
+
+            <Outlet />
+          </div>
+        </Container>
       </div>
-    </div>
+    </div >
     // <header className="header">
 
     // </header>

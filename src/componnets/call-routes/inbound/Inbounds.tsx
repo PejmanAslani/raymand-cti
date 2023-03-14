@@ -145,12 +145,12 @@ const Inbounds = () => {
                         {modaltype}
                     </ModalCustom>
                     <Col>
-                        <Button style={{ background: "#1B9CFC", border: "none" }} className='btn-grid' onClick={() => {
+                        <Button style={{ background: "#7CB518", border: "none" }} className='btn-grid' onClick={() => {
                             setSizeModal("lg");
                             setModalIsOpen(true);
                             setmodalType(<InboundsForm modal={setModalIsOpen} reload={() => reload()} />)
                         }}
-                        >New Route <PlusLg size={18} /></Button>
+                        >Route <PlusLg size={18} /></Button>
                     </Col>
                 </Row>
                 <br />
@@ -161,7 +161,6 @@ const Inbounds = () => {
                     columnDefs={columns}
                     rowData={rowData}
                 />
-
             </div>
         </Container>
     )

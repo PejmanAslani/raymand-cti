@@ -6,7 +6,7 @@ import PlineTools from "../services/PlineTools"
 const axiosConfig = {
     BASE_URL: 'http://localhost',
     PORT: ':8080',
-    TIMEOUT:6000
+    TIMEOUT: 6000
 }
 
 export const API = axios.create();
@@ -27,14 +27,7 @@ const AxiosInterceptor = ({ children }: any) => {
             return response
         }
         const errInterceptor = (error: any) => {
-            console.log(error)
-            if (error.request.status === 0) {
-                PlineTools.removeCookies('token');
-                PlineTools.errorDialogMessage("Time Expire");
-                navigate('/login');
-                return;
-            }
-            throw error
+            
         }
 
         const interceptor = axios.interceptors.response.use(resInterceptor, errInterceptor)

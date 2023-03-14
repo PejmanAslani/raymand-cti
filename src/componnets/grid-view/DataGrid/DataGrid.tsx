@@ -14,6 +14,7 @@ const DataGrid = (props: any) => {
             sortable: true,
             filter: true,
             flex: props.flex,
+
         };
     }, []);
     const gridOptions = {
@@ -70,6 +71,7 @@ const DataGrid = (props: any) => {
                 loadingOverlayComponent={loadingOverlayComponent}
                 rowDragManaged={props.dnd}
                 pagination={props.paging}
+
                 paginationPageSize={props.pageSize}
                 columnDefs={props.columnDefs}>
             </AgGridReact>

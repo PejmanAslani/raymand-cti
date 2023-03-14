@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DataGrid from "../../grid-view/DataGrid/DataGrid";
-import { CheckLg, CircleFill, Pen, PencilSquare, PlusLg, Power, Sliders, Sliders2, Sliders2Vertical, Trash3Fill, XLg } from "react-bootstrap-icons";
+import { BoundingBox, CheckLg, CircleFill, Pen, PencilSquare, PlusLg, Power, Sliders, Sliders2, Sliders2Vertical, Trash3Fill, XLg } from "react-bootstrap-icons";
 import PlineTools, { TypeAlert } from "../../services/PlineTools";
 import ModalCustom from "../../reuseables/modal/ModalCustom";
 import { Button, Col, Container, Row } from "react-bootstrap";
@@ -56,7 +56,7 @@ const SipProfiles = () => {
       <p style={{ cursor: "pointer" }} onClick={() => {
         navigate("/sip-profile-details/" + id);
       }}>
-        <Sliders size={18} color="#457B9D" />
+        <BoundingBox size={18} color="#58B19F" />
       </p>
     );
   }
@@ -129,7 +129,7 @@ const SipProfiles = () => {
                 modal={setModalIsOpen}
                 reload={() => reload()}
               />);
-            }}>Add Profile <PlusLg size={18} /></Button>
+            }}>Profile <PlusLg size={18} /></Button>
           </Col>
         </Row>
         <br />

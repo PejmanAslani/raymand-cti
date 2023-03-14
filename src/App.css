@@ -7,8 +7,6 @@
   }
 }
 
-
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -21,11 +19,13 @@
 
 body,
 html {
-  
+  background-color: #f5f6fa;
   direction: ltr;
 }
 
-
+.modal-content {
+  background-color: #f5f6fa;
+}
 
 .delete {
   color: red;

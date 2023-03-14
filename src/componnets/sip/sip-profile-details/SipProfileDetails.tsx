@@ -1,5 +1,4 @@
 import { Button, Container, Tab } from "react-bootstrap";
-
 import React, { useEffect, useState } from "react";
 import { Col, Form, Row, Tabs } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,7 +21,8 @@ const SipProfileDetails = () => {
   useEffect(() => {
     const id = profileParam.id;
     PlineTools.getRequest("/sip-profile-details/get?id=" + id).then((data) => {
-      setState(data);
+      setState(data.data);
+
       PlineTools.getRequest("/sip-profile-details/params").then((result) => {
         if (result.data.hasError) {
           PlineTools.showAlert(result.data.messages, TypeAlert.Danger);
@@ -99,8 +99,7 @@ const SipProfileDetails = () => {
                         } else {
                           tmp[_type][v[0]] = e.value;
                         }
-                        // setState(tmp)
-
+                        setState(tmp)
                       }}
                     />
                     <Form.Text className="text-muted">{v[4]}</Form.Text>
@@ -212,30 +211,30 @@ const SipProfileDetails = () => {
 
   const submit = (e: any) => {
     e.preventDefault();
-
-    // state.id = profileParam.id;
-    // PlineTools.postRequest("/sip-profile-details/save", state)
-    //   .then((result) => {
-    //     if (result.status) {
-    //       PlineTools.errorDialogMessage(
-    //         "An error occurred while executing your request. Contact the system administrator",
-    //         true
-    //       );
-    //     } else {
-    //       PlineTools.successDialogMessage(
-    //         "Information successfully recorded",
-    //         true
-    //       );
-    //       navigate("/sip-profiles/index");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     PlineTools.errorDialogMessage(
-    //       "An error occurred while executing your request. Contact the system administrator\n" +
-    //         error,
-    //       true
-    //     );
-    //   });
+    console.log(state)
+    state.id = profileParam.id;
+    PlineTools.postRequest("/sip-profile-details/save", state)
+      .then((result) => {
+        if (result.status) {
+          PlineTools.errorDialogMessage(
+            "An error occurred while executing your request. Contact the system administrator",
+            true
+          );
+        } else {
+          PlineTools.successDialogMessage(
+            "Information successfully recorded",
+            true
+          );
+          navigate("/sip-profiles/index");
+        }
+      })
+      .catch((error) => {
+        PlineTools.errorDialogMessage(
+          "An error occurred while executing your request. Contact the system administrator\n" +
+          error,
+          true
+        );
+      });
   };
 
   return (

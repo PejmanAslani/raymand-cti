@@ -41,7 +41,7 @@ export default class PlineTools {
                 Authorization: `Bearer ${PlineTools.getCookies("token") === undefined
                     ? ""
                     : PlineTools.getCookies("token")
-                }`,
+                    }`,
             },
         };
         const response = axios.get(PlineTools.backendUrl() + path, requestOptions);
@@ -55,7 +55,7 @@ export default class PlineTools {
                 Authorization: `Bearer ${PlineTools.getCookies("token") === undefined
                     ? ""
                     : PlineTools.getCookies("token")
-                }`,
+                    }`,
             },
         };
         const response = axios.delete(
@@ -72,7 +72,7 @@ export default class PlineTools {
                 Authorization: `Bearer ${PlineTools.getCookies("token") === undefined
                     ? ""
                     : PlineTools.getCookies("token")
-                }`,
+                    }`,
             },
         };
         const response = await axios.patch(
@@ -90,7 +90,7 @@ export default class PlineTools {
                 Authorization: `Bearer ${PlineTools.getCookies("token") === undefined
                     ? ""
                     : PlineTools.getCookies("token")
-                }`,
+                    }`,
             },
         };
         const response = await axios.post(
@@ -232,5 +232,8 @@ export default class PlineTools {
             return false;
         }
     }
-
+    public static CamelCase = (str: string) => {
+        const result = str.replace(/([A-Z])/g, " $1");
+        return result;
+    }
 }

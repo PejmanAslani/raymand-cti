@@ -18,7 +18,7 @@ import BulkDeleteUsers from "./bulk-user-delete/BulkDeleteUsers";
 const SipUsers = () => {
   const navigate = useNavigate();
   const [overlay, setOverlay] = useState(false);
-  const gridStyle = useMemo(() => ({ height: 580, width: "100%" }), []);
+  const gridStyle = useMemo(() => ({ height: 550, width: "100%" }), []);
   const [rowData, setRowData] = useState<any>([]);
   //Modal Hooks
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -158,11 +158,11 @@ const SipUsers = () => {
           <Col>
             <Dropdown>
               <Dropdown.Toggle
-                style={{ background: "#1B9CFC", border: "none" }}
+                style={{ background: "#7CB518", border: "none" }}
                 id="dropdown-basic"
               >
-                Add Users &nbsp;
-                <PlusLg size={17} />
+                Users Settings &nbsp;
+
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item
@@ -171,7 +171,7 @@ const SipUsers = () => {
                   }}
                 >
                   <PlusLg size={15} />
-                  New User{" "}
+                  {" "}  New User{" "}
                 </Dropdown.Item>
 
                 <Dropdown.Item
@@ -187,14 +187,14 @@ const SipUsers = () => {
                   }}
                 >
                   <PlusLg size={15} />
-                  Bulk Addition
+                  {" "}Bulk Addition
                 </Dropdown.Item>
                 <Dropdown.Item
                   onClick={() => {
                     navigate("/sip-users-bulk-edit/index");
                   }}>
                   <PencilSquare size={15} />
-                  Bulk Edit
+                  {" "}Bulk Edit
                 </Dropdown.Item>
                 <Dropdown.Item
                   onClick={() => {
@@ -211,7 +211,7 @@ const SipUsers = () => {
                   }}
                 >
                   <Trash size={15} />
-                  Bulk Delete
+                  {" "}Bulk Delete
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

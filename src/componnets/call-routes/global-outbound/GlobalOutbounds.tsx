@@ -237,7 +237,7 @@ const GlobalOutbounds = () => {
           </ModalCustom>
           <Col>
             <Button
-              style={{ background: "#1B9CFC", border: "none" }}
+              style={{ background: "#7CB518", border: "none" }}
               className="btn-grid"
               onClick={() => {
                 setSizeModal("lg");
@@ -250,7 +250,7 @@ const GlobalOutbounds = () => {
                 );
               }}
             >
-              New Route <PlusLg size={18} />
+              Route <PlusLg size={18} />
             </Button>
           </Col>
         </Row>
